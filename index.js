@@ -1,3 +1,4 @@
+var assert = require('assert')
 var treeCrawl = require('tree-crawl')
 var uniq = require('uniq')
 
@@ -295,53 +296,120 @@ function LCS (a, b, equal) {
   }
 }
 
+// Paper page 17, Figure 10
 function Match (T1, T2) {
   var M = []
   var nodes = nodesOf(T2)
   postorder(T1, function (x) {
-    var y = nodes.find(function (y) {
-      return !y.matched && equal(x, y)
-    })
-    if (y) {
-      M.push([x, y])
-      x.matched = true
-      y.matched = true
-    }
+    pairAsInMatch(x, nodes, M)
   })
   return M
 }
 
-function equal (a, b) {
-  return _l(a) === _l(b) && _v(a) === _v(b)
+function pairAsInMatch (x, T2Nodes, M) {
+  var y = T2Nodes.find(function (y) {
+    return !y.matched && equal(x, y)
+  })
+  if (y) {
+    M.push([x, y])
+    x.matched = true
+    y.matched = true
+  }
+}
+
+function equal (x, y, f) {
+  if (isLeaf(x) && isLeaf(y)) {
+    return _l(x) === _l(y) && compare(_v(x), _v(y)) <= f
+  } else {
+    var t = f
+    assert(t > 0.5)
+    return (
+      _l(x) === _l(y) &&
+      (common(x, y) / Math.max(bars(x), bars(y))) > t
+    )
+  }
+}
+
+// Paper page 16, continuing paragraph
+function contains (x, y) {
+  return isLeaf(y) && descendantOf(x, y)
+}
+
+// Paper page 16
+function common (x, y, M) {
+  return M.some(function (pair) {
+    var w = pair[0]
+    var z = pair[1]
+    return contains(x, w) && contains(y, z)
+  })
+}
+
+function descendantOf (x, y) {
+  var found = false
+  postorder(x, function (node, context) {
+    if (node === y) {
+      found = true
+      context.break()
+    }
+  })
+  return found
+}
+
+// Paper page 16, continuing paragraph
+function bars (x) {
+  var count = 0
+  postorder(x, function (node, context) {
+    if (isLeaf(node)) count++
+  })
+  return count
 }
 
 // TODO: Replace label with type
 
-function FastMatch (left, right) {
+// Paper page 18, Figure 11
+function FastMatch (T1, T2) {
   // 1. M <- Theta
   var M = []
+  // An optimization for the `pairAsInMatch` call below.
+  var nodes = nodesOf(T2)
   // 2. For each leaf label l do
-  uniq(leavesOf(left).map(function (leaf) {
+  uniq(leavesOf(T1).map(function (leaf) {
     return _l(leaf)
   })).forEach(function (l) {
     // (a) S1 <- chainT1(l)
-    var S1 = nodesOf(left).filter(function (node) {
+    var S1 = nodesOf(T1).filter(function (node) {
       return _l(node) === l
     })
     // (b) S2 <- chainT2(l)
-    var S2 = nodesOf(right).filter(function (node) {
+    var S2 = nodesOf(T2).filter(function (node) {
       return _l(node) === l
     })
     // (c) lcs <- LCS(S1, S2, equal)
     var lcs = LCS(S1, S2, equal)
     // (d) For each pair of nodes (x, y) elementOf lcs, add (x, y) to M
     lcs.forEach(function (pair) {
+      pair[0].matched = true
+      pair[1].matched = true
       M.push(pair)
     })
     // (e) Pair unmatched nodes with label l as in Algorithm Match, adding
     // matches to M
+    // TODO: Double check.
+    S1.forEach(function (x) {
+      if (x.matched) return
+      pairAsInMatch(x, nodes, M)
+    })
   })
   // 3. Repeat steps 2a through 2e for each internal node label l.
+}
+
+function inorder (node, iterator, flags) {
+  flags = flags || {}
+  inorder(tree.children, iterator, flags)
+  if (flags.stopped) return
+  iterator(node, iterator, function () { flags.stop = true })
+  if (flags.stopped) return
+  inorder(tree.children, iterator, flags)
 }
 
 function leavesOf (node) {
