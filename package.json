@@ -1,11 +1,17 @@
 {
   "private": true,
-  "devDependencies": {},
+  "devDependencies": {
+    "tape": "^4.9.0"
+  },
   "dependencies": {
     "fast-deep-equal": "^1.1.0",
+    "jsonolt": "^2.1.1",
     "leven": "^2.1.0",
     "string-similarity": "^1.2.0",
     "tree-crawl": "^1.0.5",
     "uniq": "^1.0.1"
+  },
+  "scripts": {
+    "test": "node test.js"
   }
 }

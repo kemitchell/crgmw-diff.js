@@ -1,15 +1,20 @@
 var assert = require('assert')
+var jsonolt = require('jsonolt')
+var stringSimilarity = require('string-similarity')
 var treeCrawl = require('tree-crawl')
-var uniq = require('uniq')
 
 module.exports = EditScript
 
-function EditScript (T1, T2) {
+function EditScript (json1, json2) {
+  var T1 = jsonolt.encode(json1)
+  var T2 = jsonolt.encode(json2)
+  addParentProperties(T1)
+  addParentProperties(T2)
   //  Paper: "Visit the nodes of T2 in breadth-first order."
   //  Paper: "This traversal combines the update, insert, align, and move phases."
   var E = []
-  var Mprime = []
-  var M = []
+  var M = Match(T1, T2)
+  var Mprime = M
   // (a)
   // Let x be the current node in the breadth-first search of T2
   breadthFirst(T2, function (x) {
@@ -33,9 +38,9 @@ function EditScript (T1, T2) {
     // (c) else if x is not a root
     } else if (x.parent) {
       // i.
-      //    Let w be the partner of x in M'
+      // Let w be the partner of x in M'
       let w = partnerOfIn(x, Mprime)
-      //    Let v = p(w) in T1
+      // Let v = p(w) in T1
       let v = p(w)
       // ii. If v(w) =/= v(x)
       if (_v(w) !== _v(x)) {
@@ -130,7 +135,7 @@ function EditScript (T1, T2) {
     // Let y = p(x) in T2...
     var y = p(x)
     // ...and let w be the partner of x (x elementOf T1).
-    var w = partnerOfIn(x, M)
+    // var w = partnerOfIn(x, M)
     // If x is the leftmost child of y that is marked "in order," return 1.
     var leftMostChildOfYMarkedInOrder = childrenOf(y).find(function (child) {
       return child.inOrder
@@ -157,6 +162,15 @@ function EditScript (T1, T2) {
     })
     // Return i + 1.
     return i + 1
+  }
+}
+
+function addParentProperties (node) {
+  if (node.children) {
+    node.children.forEach(function (child) {
+      child.parent = node
+      addParentProperties(child)
+    })
   }
 }
 
@@ -213,11 +227,11 @@ function elementOf (pair, mapping) {
 }
 
 function _l (node) {
-  return node.label
+  return node.label.type
 }
 
 function _v (node) {
-  return node.value
+  return node.label.value
 }
 
 function p (node) {
@@ -317,9 +331,12 @@ function pairAsInMatch (x, T2Nodes, M) {
   }
 }
 
+var DEFAULT_F = 0.8
+
 function equal (x, y, f) {
+  f = f === undefined ? DEFAULT_F : f
   if (isLeaf(x) && isLeaf(y)) {
-    return _l(x) === _l(y) && compare(_v(x), _v(y)) <= f
+    return _l(x) === _l(y) && compare(x, y) <= f
   } else {
     var t = f
     assert(t > 0.5)
@@ -327,6 +344,28 @@ function equal (x, y, f) {
       _l(x) === _l(y) &&
       (common(x, y) / Math.max(bars(x), bars(y))) > t
     )
+  }
+}
+
+// Returns Numbers [0, 2]
+function compare (x, y) {
+  var xValue = x.label.value
+  var yValue = y.label.value
+  var xType = typeof xValue
+  var yType = typeof yValue
+  if (xValue === yValue) {
+    return 2
+  } else if (xType === yType) {
+    return 0
+  } else if (xType === 'string' && yType === 'string') {
+    return 1 + stringSimilarity.compareTwoStrings(xValue, yValue)
+  } else if (xType === 'number' && yType === 'number') {
+    return 1 + (Math.abs(xValue - yValue) / Number.MAX_SAFE_INTEGER)
+  } else if (xType === 'boolean' && yType === 'boolean') {
+    return 0
+  }
+  if (v === null) {
+    
   }
 }
 
@@ -365,59 +404,6 @@ function bars (x) {
 }
 
 // TODO: Replace label with type
-
-// Paper page 18, Figure 11
-function FastMatch (T1, T2) {
-  // 1. M <- Theta
-  var M = []
-  // An optimization for the `pairAsInMatch` call below.
-  var nodes = nodesOf(T2)
-  // 2. For each leaf label l do
-  uniq(leavesOf(T1).map(function (leaf) {
-    return _l(leaf)
-  })).forEach(function (l) {
-    // (a) S1 <- chainT1(l)
-    var S1 = nodesOf(T1).filter(function (node) {
-      return _l(node) === l
-    })
-    // (b) S2 <- chainT2(l)
-    var S2 = nodesOf(T2).filter(function (node) {
-      return _l(node) === l
-    })
-    // (c) lcs <- LCS(S1, S2, equal)
-    var lcs = LCS(S1, S2, equal)
-    // (d) For each pair of nodes (x, y) elementOf lcs, add (x, y) to M
-    lcs.forEach(function (pair) {
-      pair[0].matched = true
-      pair[1].matched = true
-      M.push(pair)
-    })
-    // (e) Pair unmatched nodes with label l as in Algorithm Match, adding
-    // matches to M
-    // TODO: Double check.
-    S1.forEach(function (x) {
-      if (x.matched) return
-      pairAsInMatch(x, nodes, M)
-    })
-  })
-  // 3. Repeat steps 2a through 2e for each internal node label l.
-}
-
-function inorder (node, iterator, flags) {
-  flags = flags || {}
-  inorder(tree.children, iterator, flags)
-  if (flags.stopped) return
-  iterator(node, iterator, function () { flags.stop = true })
-  if (flags.stopped) return
-  inorder(tree.children, iterator, flags)
-}
-
-function leavesOf (node) {
-  if (isLeaf(node)) return [node]
-  return node.children.reduce(function (mem, child) {
-    return mem.concat(leavesOf(child))
-  }, [])
-}
 
 function nodesOf (node) {
   return (node.children || []).reduce(function (mem, child) {
