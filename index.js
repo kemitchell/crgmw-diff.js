@@ -10,6 +10,8 @@ function EditScript (json1, json2) {
   var T2 = jsonolt.encode(json2)
   addParentProperties(T1)
   addParentProperties(T2)
+  T1.root = true
+  T2.root = true
   //  Paper: "Visit the nodes of T2 in breadth-first order."
   //  Paper: "This traversal combines the update, insert, align, and move phases."
   var E = []
@@ -100,7 +102,7 @@ function EditScript (json1, json2) {
       // return elementOf([a, b], Mprime)
     }
     // Let S <- LCS(S1, S2, equal)
-    var S = LCS(S1, S2, equal)
+    var S = LCS(S1, S2, equal, M)
     // For each (a, b) elementOf S, mark nodes a and b "in order."
     S.forEach(function (element) {
       var a = element[0]
@@ -133,16 +135,15 @@ function EditScript (json1, json2) {
 
   function FindPos (x) {
     // Let y = p(x) in T2...
-    var y = p(x)
+    // var y = p(x)
     // ...and let w be the partner of x (x elementOf T1).
     // var w = partnerOfIn(x, M)
+
     // If x is the leftmost child of y that is marked "in order," return 1.
     var leftMostChildOfYMarkedInOrder = childrenOf(y).find(function (child) {
       return child.inOrder
     })
-    if (x === leftMostChildOfYMarkedInOrder) {
-      return 1
-    }
+    if (x === leftMostChildOfYMarkedInOrder) return 1
     // Find v elementOf T2 where v is the rightmost sibling of x that is to the left of x and is marked "in order."
     var siblingsOfX = childrenOf(y)
     var indexOfX = siblingsOfX.indexOf(x)
@@ -297,11 +298,11 @@ function MOV (x, y, k) {
 }
 
 // Myers 1986
-function LCS (a, b, equal) {
+function LCS (a, b, equal, M) {
   if (a.length === 0 || b.length === 0) return []
   var aHead = a[0]
   var bHead = b[0]
-  if (equal(aHead, bHead)) {
+  if (equal(aHead, bHead, undefined, M)) {
     return [[aHead, bHead]].concat(LCS(a.slice(1), b.slice(1), equal))
   } else {
     var first = LCS(a, b.slice(1), equal)
@@ -322,7 +323,7 @@ function Match (T1, T2) {
 
 function pairAsInMatch (x, T2Nodes, M) {
   var y = T2Nodes.find(function (y) {
-    return !y.matched && equal(x, y)
+    return !y.matched && equal(x, y, undefined, M)
   })
   if (y) {
     M.push([x, y])
@@ -333,7 +334,7 @@ function pairAsInMatch (x, T2Nodes, M) {
 
 var DEFAULT_F = 0.8
 
-function equal (x, y, f) {
+function equal (x, y, f, M) {
   f = f === undefined ? DEFAULT_F : f
   if (isLeaf(x) && isLeaf(y)) {
     return _l(x) === _l(y) && compare(x, y) <= f
@@ -342,7 +343,7 @@ function equal (x, y, f) {
     assert(t > 0.5)
     return (
       _l(x) === _l(y) &&
-      (common(x, y) / Math.max(bars(x), bars(y))) > t
+      (common(x, y, M) / Math.max(bars(x), bars(y))) > t
     )
   }
 }
@@ -353,20 +354,15 @@ function compare (x, y) {
   var yValue = y.label.value
   var xType = typeof xValue
   var yType = typeof yValue
-  if (xValue === yValue) {
-    return 2
-  } else if (xType === yType) {
-    return 0
-  } else if (xType === 'string' && yType === 'string') {
-    return 1 + stringSimilarity.compareTwoStrings(xValue, yValue)
-  } else if (xType === 'number' && yType === 'number') {
-    return 1 + (Math.abs(xValue - yValue) / Number.MAX_SAFE_INTEGER)
-  } else if (xType === 'boolean' && yType === 'boolean') {
-    return 0
-  }
-  if (v === null) {
-    
-  }
+  if (xValue === yValue) return 2
+  if (xType !== yType) return 0
+  if (xType === 'number') return 1
+  if (xType === 'boolean') return 1
+  if (xType === 'string') return compareStrings(xValue, yValue)
+}
+
+function compareStrings (a, b) {
+  return stringSimilarity.compareTwoStrings(a, b) * 2.0
 }
 
 // Paper page 16, continuing paragraph
