@@ -1,0 +1,49 @@
+{
+  "label": {
+    "type": "object"
+  },
+  "children": [
+    {
+      "label": {
+        "type": "key",
+        "value": "a"
+      },
+      "children": [
+        {
+          "label": {
+            "type": "number",
+            "value": 1
+          }
+        }
+      ]
+    },
+    {
+      "label": {
+        "type": "key",
+        "value": "b"
+      },
+      "children": [
+        {
+          "label": {
+            "type": "number",
+            "value": 2
+          }
+        }
+      ]
+    },
+    {
+      "label": {
+        "type": "key",
+        "value": "c"
+      },
+      "children": [
+        {
+          "label": {
+            "type": "number",
+            "value": 3
+          }
+        }
+      ]
+    }
+  ]
+}

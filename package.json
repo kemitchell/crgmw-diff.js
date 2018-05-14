@@ -1,0 +1,17 @@
+{
+  "name": "crgmw-diff",
+  "description": "implementation of Chawathe, Rajaraman, Garcia-Molina, and Widom hierarchical data diff",
+  "version": "0.0.0",
+  "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
+  "dependencies": {
+    "string-similarity": "^1.2.0",
+    "tree-crawl": "^1.0.5"
+  },
+  "devDependencies": {
+    "tape": "^4.9.0"
+  },
+  "repository": "kemitchell/crgmw-diff.js",
+  "scripts": {
+    "test": "tape test/*.test.js"
+  }
+}
