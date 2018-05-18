@@ -280,7 +280,9 @@ function newNode (l, v, y) {
   assert.equal(typeof l, 'string')
   assert.equal(typeof y, 'object')
   assert(y.hasOwnProperty('label'))
-  return {label: l, value: v, parent: y}
+  var label = {type: l}
+  if (v) label.value = v
+  return {label: label, parent: y, children: []}
 }
 
 function INS (node, k) {
