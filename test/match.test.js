@@ -112,4 +112,9 @@ function checkMatches (test, matches, left, right, expected) {
       'matches ' + expectedMatch[2]
     )
   })
+  test.equal(
+    expected.length,
+    matches.length,
+    'same length'
+  )
 }
