@@ -17,5 +17,21 @@
   "scripts": {
     "test": "tape test/*.test.js",
     "lint": "standard && standard-markdown"
-  }
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "licensezero": [
+    {
+      "license": {
+        "jurisdiction": "US-CA",
+        "name": "Kyle E. Mitchell",
+        "projectID": "6d3f67d4-af32-4959-abe3-dacd765484f3",
+        "publicKey": "1589d5a1b9b6b6ca26515b65fe9f725410c9f7fa41bcd9954a84d76f47cc6482",
+        "terms": "reciprocal",
+        "version": "2.0.1",
+        "homepage": "https://github.com/kemitchell/crgmw-diff.js"
+      },
+      "licensorSignature": "d124cc7246091406596a96031f57161e7103881fcb65f09878312530655e906ec8c12fc5b90628319d98ac43dfd0ad1aa29fb450ea7f2c2c11ac736e63525705",
+      "agentSignature": "8e3e5f13b6e6e3663295eaa3aa930ca795e964942416beb44d74155a69937fb9a438759a26d354a2b056753324bd262004d8d8fd9df8e336e64ddada8caf0c01"
+    }
+  ]
 }
