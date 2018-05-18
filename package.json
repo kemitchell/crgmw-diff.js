@@ -13,6 +13,7 @@
     "tape": "^4.9.0"
   },
   "repository": "kemitchell/crgmw-diff.js",
+  "homepage": "https://github.com/kemitchell/crgmw-diff.js",
   "scripts": {
     "test": "tape test/*.test.js",
     "lint": "standard && standard-markdown"
