@@ -8,10 +8,8 @@ This package calls `require('assert')`.  To omit assertions from bundled code, c
 
 # Licensing
 
-This package is free to use in open source under the terms of the [License Zero Reciprocal Public License](./LICENSE)
+This package is free to use in open source under the terms of [Parity Public License](./LICENSE).
 
-Licenses for use in closed software are available [via licensezero.com][project].
+Licenses for use in closed software are available via [licensezero.com](https://licensezero.com).
 
-[![licensezero.com pricing](https://licensezero.com/projects/6d3f67d4-af32-4959-abe3-dacd765484f3/badge.svg)][project]
-
-[project]: https://licensezero.com/projects/6d3f67d4-af32-4959-abe3-dacd765484f3
+[![licensezero.com pricing](https://licensezero.com/projects/6d3f67d4-af32-4959-abe3-dacd765484f3/badge.svg)][https://licensezero.com/projects/6d3f67d4-af32-4959-abe3-dacd765484f3]

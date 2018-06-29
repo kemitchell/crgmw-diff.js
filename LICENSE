@@ -1,65 +1,59 @@
-License Zero Reciprocal Public License 2.0.1
+The Parity Public License 2.1.0
 
-Copyright: Kyle E. Mitchell
+Copyright Notice: Kyle E. Mitchell
 
-Source: https://github.com/kemitchell/crgmw-diff.js
+Source Notice: https://github.com/kemitchell/crgmw-diff.js
+
+This license lets you use and share this software for free, as
+long as you release any software you make with it. Specifically:
+
+If you follow the rules below, you may do everything with
+this software that would otherwise infringe my copyright in
+it or any patent claim I can license that you would infringe
+by using this software as of my latest contribution.
+
+1. Release source code for changes you make to this software.
+
+2. If you run or combine this software with other software in
+   any larger program, release all source code for that program.
+
+3. Release all source code for software that you analyze,
+   change, or otherwise make using this software.
+
+4. Ensure everyone who gets a copy of this software from you,
+   in source code or any other form, gets the text of this
+   license and the copyright and source notices above.
+
+5. Do not make any legal claim against anyone for infringing
+   any patent claim they would infringe by using this software
+   alone, accusing this software, with or without changes,
+   alone or as part of a larger program.
+
+To release source code, publish the preferred form for making
+changes through a freely accessible distribution system widely
+used for similar source code, and license additional work on
+terms at least as permissive as this license. If source code
+has already been released, you do not have to release it again.
+
+You are excused for unknowingly breaking 1, 2, or 3 if you
+release source code, or stop doing anything requiring this
+license, within 30 days of learning you broke the rule.
 
 **This software comes as is, without any warranty at all. As far
 as the law allows, I will not be liable for any damages related
 to this software or this license, for any kind of legal claim.**
 
-As long as you meet the conditions below, you may do everything
-with this software that would otherwise infringe my copyright in
-it or any covered patent claim. Your permission covers a patent
-claim that I can license, or become able to license, if you would
-infringe it by using this software as of my latest contribution.
-
-1. You must ensure that everyone who gets a copy of this software
-   from you, in source code or any other form, also gets the
-   complete text of this license and the copyright and source
-   notices above.
-
-2. You must not make any legal claim against anyone for
-   infringing any patent claim they would infringe by using this
-   software alone, accusing this software, with or without
-   changes, alone or combined into a larger program.
-
-3. If you change this software, you must release source code for
-   your changes.
-
-4. If you combine this software with other software into a larger
-   program, you must release any source code for that larger
-   program that has not yet been released.
-
-5. If you run this software to analyze, change, or generate
-   software, you must release source code for that software that
-   has not yet been released.
-
-Releasing source code means publicly licensing it under either
-this license or a license approved by the Open Source Initiative,
-and promptly publishing it, in the preferred form for making
-changes, to a freely accessible distribution system widely used
-for similarly licensed source code.
-
-Any unknowing failure to meet condition 3, 4, or 5 is excused if
-you release source code as required, or stop doing anything
-requiring permission under this license, within 30 days of
-learning that this license required you to release source code.
 
 ---
 
 Licensor Signature (Ed25519):
 
-5830aa52568f281f9b7b128a683280cb
-4ed166cd0e37f9729fec4faa6dfdc892
-d2c9ef51990bfe41f9e6356b008d7fe9
-828f035bd7a88a322c74caec25276808
+8ad4156f68b7aeefd6ce46878fc6a7b70c777bdd854ddceee6ca5f9759800fc3
+dfc61a41f723b6d0b6ec3f4a9c4f6cfb7cf1d4e21d3005cc0ddf4317ecdaeb04
 
 ---
 
 Agent Signature (Ed25519):
 
-71b86770297ac453cd6577a23d096532
-91c8d8006f003caa106fa6080ba90f60
-18b1396fe0023d0ab449b83145f4dcfd
-857074b7b25799a20d2f803987af470f
+49b89629e9f37481f318ecd478be01b4c7a8d5f067f8ca56da88b3e31d1eb1bd
+1e4a018553c80c01909f5e0a8a69fe7941ddea488bad2416b872ef28c4b3cb05

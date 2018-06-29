@@ -1,0 +1,18 @@
+{
+  "version": "",
+  "licensezero": [
+    {
+      "agentSignature": "e34b4bd394d5fb599738be970bde17e421f44864c47b198acdf8e5dcfaa20da011ada4d73257d8b61dd016f5b70ded3b7e7291a4b4bf72fe766498d1de40e000",
+      "license": {
+        "homepage": "https://github.com/kemitchell/crgmw-diff.js",
+        "jurisdiction": "US-CA",
+        "name": "Kyle E. Mitchell",
+        "projectID": "6d3f67d4-af32-4959-abe3-dacd765484f3",
+        "publicKey": "1589d5a1b9b6b6ca26515b65fe9f725410c9f7fa41bcd9954a84d76f47cc6482",
+        "terms": "parity",
+        "version": "2.1.0"
+      },
+      "licensorSignature": "43f9d1be5b2aa4a28376be5ce33d33d642b6b5e7e8a7807ba771356117b41b43e0887ba126730748d70b7b3b49c61bff5724b393f4976bdf9a30fc9398e26804"
+    }
+  ]
+}
