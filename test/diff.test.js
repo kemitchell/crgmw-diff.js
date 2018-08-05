@@ -71,3 +71,45 @@ function indexLabel (index) {
 function clone (value) {
   return JSON.parse(JSON.stringify(value))
 }
+
+tape.test('diff swapped object', function (t) {
+  var a = {label: {type: 'string', value: 'a'}}
+  var b = {label: {type: 'string', value: 'b'}}
+  var left = {
+    label: {type: 'object'},
+    children: [
+      {
+        label: keyLabel('x'),
+        children: [clone(a)]
+      },
+      {
+        label: keyLabel('y'),
+        children: [clone(b)]
+      }
+    ]
+  }
+  var right = {
+    label: {type: 'object'},
+    children: [
+      {
+        label: keyLabel('x'),
+        children: [clone(b)]
+      },
+      {
+        label: keyLabel('y'),
+        children: [clone(a)]
+      }
+    ]
+  }
+  var result = diff(left, right)
+  var editScript = result.editScript
+  t.equal(editScript.length, 3)
+  t.equal(editScript[0].operation, 'move')
+  t.equal(editScript[1].operation, 'update')
+  t.equal(editScript[2].operation, 'update')
+  t.end()
+})
+
+function keyLabel (key) {
+  return {type: 'key', value: key}
+}
