@@ -210,3 +210,29 @@ tape.test('diff array delete', function (t) {
   t.equal(editScript[1].node.label.type, 'index')
   t.end()
 })
+
+tape.test('diff array to object', function (t) {
+  var a = {label: {type: 'string', value: 'a'}}
+  var b = {label: {type: 'string', value: 'b'}}
+  var left = {
+    label: {type: 'array'},
+    children: [
+      {label: indexLabel(0), children: [clone(a)]},
+      {label: indexLabel(1), children: [clone(b)]}
+    ]
+  }
+  var right = {
+    label: {type: 'object'},
+    children: [
+      {label: keyLabel('x'), children: [clone(a)]},
+      {label: keyLabel('y'), children: [clone(b)]}
+    ]
+  }
+  var result = diff(left, right)
+  var editScript = result.editScript
+  t.equal(
+    editScript.length,
+    3 /* inserts */ + 2 /* moves */ + 3 /* deletes */
+  )
+  t.end()
+})
