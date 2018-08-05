@@ -8,6 +8,7 @@
     "tree-crawl": "^1.0.5"
   },
   "devDependencies": {
+    "istanbul": "^0.4.5",
     "standard": "^11.0.1",
     "standard-markdown": "^4.0.2",
     "tape": "^4.9.0"
@@ -15,6 +16,8 @@
   "repository": "kemitchell/crgmw-diff.js",
   "homepage": "https://github.com/kemitchell/crgmw-diff.js",
   "scripts": {
+    "coverage": "istanbul cover -- tape test/*.test.js",
+    "postcoverage": "istanbul check",
     "test": "tape test/*.test.js",
     "lint": "standard && standard-markdown"
   },
