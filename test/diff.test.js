@@ -113,3 +113,74 @@ tape.test('diff swapped object', function (t) {
 function keyLabel (key) {
   return {type: 'key', value: key}
 }
+
+tape.test('diff array append', function (t) {
+  var a = {label: {type: 'string', value: 'a'}}
+  var b = {label: {type: 'string', value: 'b'}}
+  var left = {
+    label: {type: 'array'},
+    children: [
+      {
+        label: indexLabel(0),
+        children: [clone(a)]
+      }
+    ]
+  }
+  var right = {
+    label: {type: 'array'},
+    children: [
+      {
+        label: indexLabel(0),
+        children: [clone(a)]
+      },
+      {
+        label: indexLabel(1),
+        children: [clone(b)]
+      }
+    ]
+  }
+  var result = diff(left, right)
+  var editScript = result.editScript
+  t.equal(editScript.length, 2)
+  t.equal(editScript[0].operation, 'insert')
+  t.equal(editScript[0].node.label.type, 'index')
+  t.equal(editScript[1].operation, 'insert')
+  t.equal(editScript[1].node.label.type, 'string')
+  t.end()
+})
+
+tape.test('diff array prepend', function (t) {
+  var a = {label: {type: 'string', value: 'a'}}
+  var b = {label: {type: 'string', value: 'b'}}
+  var left = {
+    label: {type: 'array'},
+    children: [
+      {
+        label: indexLabel(0),
+        children: [clone(b)]
+      }
+    ]
+  }
+  var right = {
+    label: {type: 'array'},
+    children: [
+      {
+        label: indexLabel(0),
+        children: [clone(a)]
+      },
+      {
+        label: indexLabel(1),
+        children: [clone(b)]
+      }
+    ]
+  }
+  var result = diff(left, right)
+  var editScript = result.editScript
+  t.equal(editScript.length, 3)
+  t.equal(editScript[0].operation, 'insert')
+  t.equal(editScript[0].node.label.type, 'index')
+  t.equal(editScript[1].operation, 'update')
+  t.equal(editScript[2].operation, 'insert')
+  t.equal(editScript[2].node.label.type, 'string')
+  t.end()
+})
