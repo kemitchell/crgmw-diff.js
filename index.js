@@ -224,6 +224,7 @@ function applyTo (action, tree) {
   var node = action.node
   assert(typeof node, 'object')
   var parent
+  /* istanbul ignore else */
   if (operation === 'insert') {
     parent = p(node)
     childrenOf(parent).splice(operation.index, 0, node)
@@ -238,6 +239,8 @@ function applyTo (action, tree) {
     applyTo(DEL(node), tree)
     node.parent = parent
     applyTo(INS(node, operation.index), tree)
+  } else {
+    throw new Error('invalid operation: ' + JSON.stringify(operation))
   }
 }
 
