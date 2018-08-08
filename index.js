@@ -18,9 +18,11 @@ module.exports = function (T1, T2, options) {
     options.branches === undefined ? 0.5 : options.branches
   )
   var Mprime = M
+  var dummyRoots = false
 
   // Paper: If the roots of T1 and T2 are not matched in M,
   if (partnerOfIn(T1, M) !== T2) {
+    dummyRoots = true
     // Paper: ... then we add new (dummy) root nodes x to T1 and y to T2,
     var x = dummyRoot()
     var y = dummyRoot()
@@ -109,6 +111,7 @@ module.exports = function (T1, T2, options) {
   // M' is a total matching
   // T1 is isomorphic to T2
   return {
+    dummyRoots: dummyRoots,
     editScript: E,
     totalMatching: Mprime
   }

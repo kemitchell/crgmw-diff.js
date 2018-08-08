@@ -230,6 +230,7 @@ tape.test('diff array to object', function (t) {
   }
   var result = diff(left, right)
   var editScript = result.editScript
+  t.equal(result.dummyRoots, true, 'dummyRoots: true')
   t.equal(
     editScript.length,
     3 /* inserts */ + 2 /* moves */ + 3 /* deletes */
