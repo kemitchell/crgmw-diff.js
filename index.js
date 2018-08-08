@@ -287,7 +287,7 @@ function newNode (l, v, y) {
   assert.equal(typeof y, 'object')
   assert(y.hasOwnProperty('label'))
   var label = {type: l}
-  if (v) label.value = v
+  if (v !== undefined) label.value = v
   return {label: label, parent: y, children: []}
 }
 

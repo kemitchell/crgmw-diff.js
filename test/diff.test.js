@@ -237,3 +237,14 @@ tape.test('diff array to object', function (t) {
   )
   t.end()
 })
+
+tape.test('diff string to boolean', function (t) {
+  var boolean = {label: {type: 'boolean', value: false}}
+  var string = {label: {type: 'string', value: 'false'}}
+  var result = diff(string, boolean)
+  var editScript = result.editScript
+  t.equal(editScript[0].operation, 'insert')
+  t.equal(editScript[0].node.label.type, 'boolean')
+  t.equal(editScript[0].node.label.value, false)
+  t.end()
+})
