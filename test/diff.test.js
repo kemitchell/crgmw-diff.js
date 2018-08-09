@@ -149,6 +149,58 @@ tape.test('diff array append', function (t) {
   t.end()
 })
 
+tape('diff double child append', function (t) {
+  var a = {label: {type: 'string', value: 'a'}}
+  var b = {label: {type: 'string', value: 'b'}}
+  var c = {label: {type: 'string', value: 'c'}}
+  var d = {label: {type: 'string', value: 'd'}}
+  var left = {
+    label: {type: 'array'},
+    children: [clone(a), clone(b)]
+  }
+  var right = {
+    label: {type: 'array'},
+    children: [clone(a), clone(b), clone(c), clone(d)]
+  }
+  var result = diff(left, right)
+  var editScript = result.editScript
+  t.equal(editScript.length, 2)
+  // Insert c
+  t.equal(editScript[0].operation, 'insert')
+  t.equal(editScript[0].node.label.type, 'string')
+  t.equal(editScript[0].node.label.value, 'c')
+  t.equal(editScript[0].index, 2)
+  // Insert d
+  t.equal(editScript[1].operation, 'insert')
+  t.equal(editScript[1].node.label.type, 'string')
+  t.equal(editScript[1].node.label.value, 'd')
+  t.equal(editScript[1].index, 3)
+  t.end()
+})
+
+tape('diff child prepend', function (t) {
+  var a = {label: {type: 'string', value: 'a'}}
+  var b = {label: {type: 'string', value: 'b'}}
+  var c = {label: {type: 'string', value: 'c'}}
+  var d = {label: {type: 'string', value: 'd'}}
+  var left = {
+    label: {type: 'array'},
+    children: [clone(b), clone(c), clone(d)]
+  }
+  var right = {
+    label: {type: 'array'},
+    children: [clone(a), clone(b), clone(c), clone(d)]
+  }
+  var result = diff(left, right)
+  var editScript = result.editScript
+  t.equal(editScript.length, 1)
+  t.equal(editScript[0].operation, 'insert')
+  t.equal(editScript[0].node.label.type, 'string')
+  t.equal(editScript[0].node.label.value, 'a')
+  t.equal(editScript[0].index, 0)
+  t.end()
+})
+
 tape.test('diff array prepend', function (t) {
   var a = {label: {type: 'string', value: 'a'}}
   var b = {label: {type: 'string', value: 'b'}}

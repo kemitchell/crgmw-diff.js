@@ -49,11 +49,12 @@ module.exports = function (T1, T2, options) {
     // and let y = p(x)
     var y = p(x)
     // Let z be the partner of y in M'
-    var z = partnerOfIn(y, Mprime)
+    var z = y && partnerOfIn(y, Mprime)
     var action
     var w = partnerOfIn(x, Mprime)
     // (b) If x has no partner in M'
     if (!w) {
+      assert(z)
       // i. k <- FindPos(x)
       var k = FindPos(x)
       // ii. Append INS((w, a, v(x)), z, k) to E, for a new identifier w.
@@ -185,7 +186,7 @@ module.exports = function (T1, T2, options) {
     // This branch is _not_ described in the paper.
     if (!v) return 0
     // Let u be the partner of v in T1.
-    var u = partnerOfIn(v, T1)
+    var u = partnerOfIn(v, Mprime)
     if (!u) return 0
     // return get_pos(u) + 1
     // Suppose u is the ith child of its parent (counting from left to right) that is marked "in order."
@@ -195,7 +196,7 @@ module.exports = function (T1, T2, options) {
       return sibling.inOrder
     })
     // Return i + 1.
-    return i + 1
+    return i + 1 + 1 // add one
   }
 
   // Myers 1986
@@ -248,6 +249,9 @@ function applyTo (action, tree) {
 }
 
 function partnerOfIn (node, mapping) {
+  assert.equal(typeof node, 'object')
+  assert(node.hasOwnProperty('label'))
+  assert(Array.isArray(mapping))
   for (var index = 0; index < mapping.length; index++) {
     var pair = mapping[index]
     if (pair[0] === node) return pair[1]
@@ -256,10 +260,14 @@ function partnerOfIn (node, mapping) {
 }
 
 function appendTo (action, mapping) {
+  assert.equal(typeof action, 'object')
+  assert(Array.isArray(mapping))
   mapping.push(action)
 }
 
 function elementOf (pair, mapping) {
+  assert(Array.isArray(pair))
+  assert(Array.isArray(mapping))
   return mapping.some(function (otherPair) {
     return (
       pair[0] === otherPair[0] &&
