@@ -236,7 +236,7 @@ function applyTo (action, tree) {
     var children = childrenOf(parent)
     children.splice(children.indexOf(node), 1)
   } else if (operation === 'update') {
-    node.value = operation.value
+    node.label.value = operation.value
   } else if (operation === 'move') {
     parent = action.parent
     applyTo(DEL(node), tree)
