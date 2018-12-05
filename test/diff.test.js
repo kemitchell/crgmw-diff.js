@@ -149,6 +149,67 @@ tape.test('diff array append', function (t) {
   t.end()
 })
 
+tape.test('diff array shift', function (t) {
+  var a = {label: {type: 'string', value: 'a'}}
+  var b = {label: {type: 'string', value: 'b'}}
+  var left = {
+    label: {type: 'array'},
+    children: [
+      {
+        label: indexLabel(0),
+        children: [clone(a)]
+      },
+      {
+        label: indexLabel(1),
+        children: [clone(b)]
+      }
+    ]
+  }
+  var right = {
+    label: {type: 'array'},
+    children: [
+      {
+        label: indexLabel(0),
+        children: [
+          {
+            label: {type: 'array'},
+            children: []
+          }
+        ]
+      },
+      {
+        label: indexLabel(1),
+        children: [clone(a)]
+      },
+      {
+        label: indexLabel(2),
+        children: [clone(b)]
+      }
+    ]
+  }
+  var result = diff(left, right)
+  var editScript = result.editScript
+  t.equal(editScript.length, 4)
+  // Insert new index.
+  t.equal(editScript[0].operation, 'insert')
+  t.equal(editScript[0].node.label.type, 'index')
+  t.equal(editScript[0].node.label.value, 0)
+  // Update a'b index.
+  t.equal(editScript[1].operation, 'update')
+  t.equal(editScript[1].node.children[0].label.value, 'a')
+  t.equal(editScript[1].value, 1)
+  // Update b's index.
+  t.equal(editScript[2].operation, 'update')
+  t.equal(editScript[2].node.children[0].label.value, 'b')
+  t.equal(editScript[2].value, 2)
+  // Insert array as child of new index.
+  t.equal(editScript[3].operation, 'insert')
+  t.equal(editScript[3].node.label.type, 'array')
+  t.equal(editScript[3].node.parent.label.type, 'index')
+  t.equal(editScript[3].index, 0)
+  t.end()
+})
+
 tape('diff double child append', function (t) {
   var a = {label: {type: 'string', value: 'a'}}
   var b = {label: {type: 'string', value: 'b'}}
