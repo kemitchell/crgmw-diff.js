@@ -4,7 +4,7 @@ var postorder = require('../postorder')
 tape('postorder sanity check', function (test) {
   var tree = {
     label: 'p',
-    children: [{label: 'a'}, {label: 'b'}, {label: 'c'}]
+    children: [{ label: 'a' }, { label: 'b' }, { label: 'c' }]
   }
   var order = []
   postorder(tree, function (node) { order.push(node.label) })

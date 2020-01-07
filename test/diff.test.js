@@ -27,10 +27,10 @@ tape.test('diff renamed key', function (t) {
 })
 
 tape.test('diff swapped array', function (t) {
-  var a = {label: {type: 'string', value: 'a'}}
-  var b = {label: {type: 'string', value: 'b'}}
+  var a = { label: { type: 'string', value: 'a' } }
+  var b = { label: { type: 'string', value: 'b' } }
   var left = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
       {
         label: indexLabel(0),
@@ -43,7 +43,7 @@ tape.test('diff swapped array', function (t) {
     ]
   }
   var right = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
       {
         label: indexLabel(0),
@@ -65,7 +65,7 @@ tape.test('diff swapped array', function (t) {
 })
 
 function indexLabel (index) {
-  return {type: 'index', value: index}
+  return { type: 'index', value: index }
 }
 
 function clone (value) {
@@ -73,10 +73,10 @@ function clone (value) {
 }
 
 tape.test('diff swapped object', function (t) {
-  var a = {label: {type: 'string', value: 'a'}}
-  var b = {label: {type: 'string', value: 'b'}}
+  var a = { label: { type: 'string', value: 'a' } }
+  var b = { label: { type: 'string', value: 'b' } }
   var left = {
-    label: {type: 'object'},
+    label: { type: 'object' },
     children: [
       {
         label: keyLabel('x'),
@@ -89,7 +89,7 @@ tape.test('diff swapped object', function (t) {
     ]
   }
   var right = {
-    label: {type: 'object'},
+    label: { type: 'object' },
     children: [
       {
         label: keyLabel('x'),
@@ -111,14 +111,14 @@ tape.test('diff swapped object', function (t) {
 })
 
 function keyLabel (key) {
-  return {type: 'key', value: key}
+  return { type: 'key', value: key }
 }
 
 tape.test('diff array append', function (t) {
-  var a = {label: {type: 'string', value: 'a'}}
-  var b = {label: {type: 'string', value: 'b'}}
+  var a = { label: { type: 'string', value: 'a' } }
+  var b = { label: { type: 'string', value: 'b' } }
   var left = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
       {
         label: indexLabel(0),
@@ -127,7 +127,7 @@ tape.test('diff array append', function (t) {
     ]
   }
   var right = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
       {
         label: indexLabel(0),
@@ -150,10 +150,10 @@ tape.test('diff array append', function (t) {
 })
 
 tape.test('diff array shift', function (t) {
-  var a = {label: {type: 'string', value: 'a'}}
-  var b = {label: {type: 'string', value: 'b'}}
+  var a = { label: { type: 'string', value: 'a' } }
+  var b = { label: { type: 'string', value: 'b' } }
   var left = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
       {
         label: indexLabel(0),
@@ -166,13 +166,13 @@ tape.test('diff array shift', function (t) {
     ]
   }
   var right = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
       {
         label: indexLabel(0),
         children: [
           {
-            label: {type: 'array'},
+            label: { type: 'array' },
             children: []
           }
         ]
@@ -211,10 +211,10 @@ tape.test('diff array shift', function (t) {
 })
 
 tape.test('diff array splice', function (t) {
-  var a = {label: {type: 'string', value: 'a'}}
-  var b = {label: {type: 'string', value: 'b'}}
+  var a = { label: { type: 'string', value: 'a' } }
+  var b = { label: { type: 'string', value: 'b' } }
   var left = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
       {
         label: indexLabel(0),
@@ -227,7 +227,7 @@ tape.test('diff array splice', function (t) {
     ]
   }
   var right = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
       {
         label: indexLabel(0),
@@ -237,7 +237,7 @@ tape.test('diff array splice', function (t) {
         label: indexLabel(1),
         children: [
           {
-            label: {type: 'array'},
+            label: { type: 'array' },
             children: []
           }
         ]
@@ -268,16 +268,16 @@ tape.test('diff array splice', function (t) {
 })
 
 tape('diff double child append', function (t) {
-  var a = {label: {type: 'string', value: 'a'}}
-  var b = {label: {type: 'string', value: 'b'}}
-  var c = {label: {type: 'string', value: 'c'}}
-  var d = {label: {type: 'string', value: 'd'}}
+  var a = { label: { type: 'string', value: 'a' } }
+  var b = { label: { type: 'string', value: 'b' } }
+  var c = { label: { type: 'string', value: 'c' } }
+  var d = { label: { type: 'string', value: 'd' } }
   var left = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [clone(a), clone(b)]
   }
   var right = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [clone(a), clone(b), clone(c), clone(d)]
   }
   var result = diff(left, right)
@@ -297,16 +297,16 @@ tape('diff double child append', function (t) {
 })
 
 tape('diff child prepend', function (t) {
-  var a = {label: {type: 'string', value: 'a'}}
-  var b = {label: {type: 'string', value: 'b'}}
-  var c = {label: {type: 'string', value: 'c'}}
-  var d = {label: {type: 'string', value: 'd'}}
+  var a = { label: { type: 'string', value: 'a' } }
+  var b = { label: { type: 'string', value: 'b' } }
+  var c = { label: { type: 'string', value: 'c' } }
+  var d = { label: { type: 'string', value: 'd' } }
   var left = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [clone(b), clone(c), clone(d)]
   }
   var right = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [clone(a), clone(b), clone(c), clone(d)]
   }
   var result = diff(left, right)
@@ -320,10 +320,10 @@ tape('diff child prepend', function (t) {
 })
 
 tape.test('diff array prepend', function (t) {
-  var a = {label: {type: 'string', value: 'a'}}
-  var b = {label: {type: 'string', value: 'b'}}
+  var a = { label: { type: 'string', value: 'a' } }
+  var b = { label: { type: 'string', value: 'b' } }
   var left = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
       {
         label: indexLabel(0),
@@ -332,7 +332,7 @@ tape.test('diff array prepend', function (t) {
     ]
   }
   var right = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
       {
         label: indexLabel(0),
@@ -356,19 +356,19 @@ tape.test('diff array prepend', function (t) {
 })
 
 tape.test('diff array delete', function (t) {
-  var a = {label: {type: 'string', value: 'a'}}
-  var b = {label: {type: 'string', value: 'b'}}
+  var a = { label: { type: 'string', value: 'a' } }
+  var b = { label: { type: 'string', value: 'b' } }
   var left = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
-      {label: indexLabel(0), children: [clone(a)]},
-      {label: indexLabel(1), children: [clone(b)]}
+      { label: indexLabel(0), children: [clone(a)] },
+      { label: indexLabel(1), children: [clone(b)] }
     ]
   }
   var right = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
-      {label: indexLabel(0), children: [clone(a)]}
+      { label: indexLabel(0), children: [clone(a)] }
     ]
   }
   var result = diff(left, right)
@@ -382,20 +382,20 @@ tape.test('diff array delete', function (t) {
 })
 
 tape.test('diff array to object', function (t) {
-  var a = {label: {type: 'string', value: 'a'}}
-  var b = {label: {type: 'string', value: 'b'}}
+  var a = { label: { type: 'string', value: 'a' } }
+  var b = { label: { type: 'string', value: 'b' } }
   var left = {
-    label: {type: 'array'},
+    label: { type: 'array' },
     children: [
-      {label: indexLabel(0), children: [clone(a)]},
-      {label: indexLabel(1), children: [clone(b)]}
+      { label: indexLabel(0), children: [clone(a)] },
+      { label: indexLabel(1), children: [clone(b)] }
     ]
   }
   var right = {
-    label: {type: 'object'},
+    label: { type: 'object' },
     children: [
-      {label: keyLabel('x'), children: [clone(a)]},
-      {label: keyLabel('y'), children: [clone(b)]}
+      { label: keyLabel('x'), children: [clone(a)] },
+      { label: keyLabel('y'), children: [clone(b)] }
     ]
   }
   var result = diff(left, right)
@@ -409,8 +409,8 @@ tape.test('diff array to object', function (t) {
 })
 
 tape.test('diff string to boolean', function (t) {
-  var boolean = {label: {type: 'boolean', value: false}}
-  var string = {label: {type: 'string', value: 'false'}}
+  var boolean = { label: { type: 'boolean', value: false } }
+  var string = { label: { type: 'string', value: 'false' } }
   var result = diff(string, boolean)
   var editScript = result.editScript
   t.equal(editScript[0].operation, 'insert')

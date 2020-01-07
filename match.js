@@ -7,11 +7,11 @@ module.exports = function (
   MINIMUM_LEAF_SIMILARITY,
   MINIMUM_BRANCH_SIMILARITY
 ) {
-  assert.equal(typeof MINIMUM_LEAF_SIMILARITY, 'number')
+  assert.strictEqual(typeof MINIMUM_LEAF_SIMILARITY, 'number')
   assert(MINIMUM_LEAF_SIMILARITY >= 0.5)
   assert(MINIMUM_LEAF_SIMILARITY <= 1.0)
 
-  assert.equal(typeof MINIMUM_BRANCH_SIMILARITY, 'number')
+  assert.strictEqual(typeof MINIMUM_BRANCH_SIMILARITY, 'number')
   assert(MINIMUM_BRANCH_SIMILARITY >= 0)
   assert(MINIMUM_BRANCH_SIMILARITY <= 1)
 

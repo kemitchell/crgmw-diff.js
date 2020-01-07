@@ -4,6 +4,8 @@ var childrenOf = require('./children-of')
 var match = require('./match')
 var postorder = require('./postorder')
 
+var hasOwnProperty = Object.prototype.hasOwnProperty
+
 module.exports = function (T1, T2, options) {
   options = options || {}
 
@@ -81,9 +83,9 @@ module.exports = function (T1, T2, options) {
       // iii. If (y, v) not an element of M'
       if (!elementOf([v, y], Mprime)) {
         // A. Let z be the partner of y in M'
-        let z = partnerOfIn(y, Mprime)
+        const z = partnerOfIn(y, Mprime)
         // B. k <- FindPos(x)
-        let k = FindPos(x)
+        const k = FindPos(x)
         // C. Append MOV(w, z, k) to E
         action = MOV(w, z, k)
         appendTo(action, E)
@@ -249,8 +251,8 @@ function applyTo (action, tree) {
 }
 
 function partnerOfIn (node, mapping) {
-  assert.equal(typeof node, 'object')
-  assert(node.hasOwnProperty('label'))
+  assert.strictEqual(typeof node, 'object')
+  assert(hasOwnProperty.call(node, 'label'))
   assert(Array.isArray(mapping))
   for (var index = 0; index < mapping.length; index++) {
     var pair = mapping[index]
@@ -260,7 +262,7 @@ function partnerOfIn (node, mapping) {
 }
 
 function appendTo (action, mapping) {
-  assert.equal(typeof action, 'object')
+  assert.strictEqual(typeof action, 'object')
   assert(Array.isArray(mapping))
   mapping.push(action)
 }
@@ -291,42 +293,42 @@ function p (node) {
 // Edit Operation Constructors
 
 function newNode (l, v, y) {
-  assert.equal(typeof l, 'string')
-  assert.equal(typeof y, 'object')
-  assert(y.hasOwnProperty('label'))
-  var label = {type: l}
+  assert.strictEqual(typeof l, 'string')
+  assert.strictEqual(typeof y, 'object')
+  assert(hasOwnProperty.call(y, 'label'))
+  var label = { type: l }
   if (v !== undefined) label.value = v
-  return {label: label, parent: y, children: []}
+  return { label: label, parent: y, children: [] }
 }
 
 function INS (node, k) {
-  assert.equal(typeof node, 'object')
-  assert(node.hasOwnProperty('label'))
-  return {operation: 'insert', node: node, index: k}
+  assert.strictEqual(typeof node, 'object')
+  assert(hasOwnProperty.call(node, 'label'))
+  return { operation: 'insert', node: node, index: k }
 }
 
 function DEL (x) {
-  assert.equal(typeof x, 'object')
-  assert(x.hasOwnProperty('label'))
-  return {operation: 'delete', node: x}
+  assert.strictEqual(typeof x, 'object')
+  assert(hasOwnProperty.call(x, 'label'))
+  return { operation: 'delete', node: x }
 }
 
 function UPD (x, val) {
-  assert.equal(typeof x, 'object')
-  assert(x.hasOwnProperty('label'))
-  return {operation: 'update', node: x, value: val}
+  assert.strictEqual(typeof x, 'object')
+  assert(hasOwnProperty.call(x, 'label'))
+  return { operation: 'update', node: x, value: val }
 }
 
 function MOV (x, y, k) {
-  assert.equal(typeof x, 'object')
-  assert(x.hasOwnProperty('label'))
-  assert.equal(typeof y, 'object')
-  assert(y.hasOwnProperty('label'))
-  assert.equal(typeof k, 'number')
+  assert.strictEqual(typeof x, 'object')
+  assert(hasOwnProperty.call(x, 'label'))
+  assert.strictEqual(typeof y, 'object')
+  assert(hasOwnProperty.call(y, 'label'))
+  assert.strictEqual(typeof k, 'number')
   assert(k >= 0)
-  return {operation: 'move', node: x, parent: y, index: k}
+  return { operation: 'move', node: x, parent: y, index: k }
 }
 
 function dummyRoot () {
-  return {label: {type: 'dummy'}, root: true}
+  return { label: { type: 'dummy' }, root: true }
 }

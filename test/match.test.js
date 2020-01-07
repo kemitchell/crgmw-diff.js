@@ -4,53 +4,53 @@ var match = require('../match')
 
 tape.test('match Figure 1: Running Example', function (test) {
   var left = {
-    label: {type: 'document'},
+    label: { type: 'document' },
     children: [
       {
-        label: {type: 'paragraph'},
+        label: { type: 'paragraph' },
         children: [
-          {label: {type: 'sentence', value: 'a'}},
-          {label: {type: 'sentence', value: 'b'}},
-          {label: {type: 'sentence', value: 'c'}}
+          { label: { type: 'sentence', value: 'a' } },
+          { label: { type: 'sentence', value: 'b' } },
+          { label: { type: 'sentence', value: 'c' } }
         ]
       },
       {
-        label: {type: 'paragraph'},
+        label: { type: 'paragraph' },
         children: [
-          {label: {type: 'sentence', value: 'd'}},
-          {label: {type: 'sentence', value: 'e'}}
+          { label: { type: 'sentence', value: 'd' } },
+          { label: { type: 'sentence', value: 'e' } }
         ]
       },
       {
-        label: {type: 'paragraph'},
+        label: { type: 'paragraph' },
         children: [
-          {label: {type: 'sentence', value: 'f'}}
+          { label: { type: 'sentence', value: 'f' } }
         ]
       }
     ]
   }
   var right = {
-    label: {type: 'document'},
+    label: { type: 'document' },
     children: [
       {
-        label: {type: 'paragraph'},
+        label: { type: 'paragraph' },
         children: [
-          {label: {type: 'sentence', value: 'a'}},
-          {label: {type: 'sentence', value: 'c'}}
+          { label: { type: 'sentence', value: 'a' } },
+          { label: { type: 'sentence', value: 'c' } }
         ]
       },
       {
-        label: {type: 'paragraph'},
+        label: { type: 'paragraph' },
         children: [
-          {label: {type: 'sentence', value: 'f'}}
+          { label: { type: 'sentence', value: 'f' } }
         ]
       },
       {
-        label: {type: 'paragraph'},
+        label: { type: 'paragraph' },
         children: [
-          {label: {type: 'sentence', value: 'd'}},
-          {label: {type: 'sentence', value: 'e'}},
-          {label: {type: 'sentence', value: 'g'}}
+          { label: { type: 'sentence', value: 'd' } },
+          { label: { type: 'sentence', value: 'e' } },
+          { label: { type: 'sentence', value: 'g' } }
         ]
       }
     ]
