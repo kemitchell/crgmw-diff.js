@@ -10,7 +10,6 @@
   "devDependencies": {
     "istanbul": "^0.4.5",
     "standard": "^14.3.1",
-    "standard-markdown": "^5.1.0",
     "tape": "^4.9.0"
   },
   "repository": "kemitchell/crgmw-diff.js",
@@ -19,7 +18,7 @@
     "coverage": "istanbul cover -- tape test/*.test.js",
     "postcoverage": "istanbul check",
     "test": "tape test/*.test.js",
-    "lint": "standard && standard-markdown README.md"
+    "lint": "standard"
   },
   "license": "SEE LICENSE IN LICENSE"
 }
