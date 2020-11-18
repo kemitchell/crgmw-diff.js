@@ -4,7 +4,7 @@
   "version": "2.1.4",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "dependencies": {
-    "string-similarity": "^1.2.0",
+    "string-similarity": "^4.0.3",
     "tree-crawl": "^1.0.5"
   },
   "devDependencies": {
