@@ -1,10 +1,10 @@
-var assert = require('assert')
-var breadthFirst = require('./breadth-first')
-var childrenOf = require('./children-of')
-var match = require('./match')
-var postorder = require('./postorder')
+const assert = require('assert')
+const breadthFirst = require('./breadth-first')
+const childrenOf = require('./children-of')
+const match = require('./match')
+const postorder = require('./postorder')
 
-var hasOwnProperty = Object.prototype.hasOwnProperty
+const hasOwnProperty = Object.prototype.hasOwnProperty
 
 module.exports = function (T1, T2, options) {
   options = options || {}
@@ -13,30 +13,30 @@ module.exports = function (T1, T2, options) {
   addParentProperties(T2)
   //  Paper: "Visit the nodes of T2 in breadth-first order."
   //  Paper: "This traversal combines the update, insert, align, and move phases."
-  var E = []
-  var M = match(
+  const E = []
+  const M = match(
     T1, T2,
     options.leaves === undefined ? 0.8 : options.leaves,
     options.branches === undefined ? 0.5 : options.branches
   )
-  var Mprime = M
-  var dummyRoots = false
+  const Mprime = M
+  let dummyRoots = false
 
   // Paper: If the roots of T1 and T2 are not matched in M,
   if (partnerOfIn(T1, M) !== T2) {
     dummyRoots = true
     // Paper: ... then we add new (dummy) root nodes x to T1 and y to T2,
-    var x = dummyRoot()
-    var y = dummyRoot()
+    const x = dummyRoot()
+    const y = dummyRoot()
     // Paper: ... and add (x, y) to M.
     M.push([x, y])
     // Paper: The old root of T1 is made the lone child of x
-    var oldRootOfT1 = T1
+    const oldRootOfT1 = T1
     x.children = [oldRootOfT1]
     oldRootOfT1.parent = x
     T1 = x
     // Paper: ... and the old root of T2 is made the lone child of y.
-    var oldRootOfT2 = T2
+    const oldRootOfT2 = T2
     y.children = [oldRootOfT2]
     oldRootOfT2.parent = y
     T2 = y
@@ -49,16 +49,16 @@ module.exports = function (T1, T2, options) {
   // Let x be the current node in the breadth-first search of T2
   breadthFirst(T2, function (x) {
     // and let y = p(x)
-    var y = p(x)
+    const y = p(x)
     // Let z be the partner of y in M'
-    var z = y && partnerOfIn(y, Mprime)
-    var action
-    var w = partnerOfIn(x, Mprime)
+    const z = y && partnerOfIn(y, Mprime)
+    let action
+    let w = partnerOfIn(x, Mprime)
     // (b) If x has no partner in M'
     if (!w) {
       assert(z)
       // i. k <- FindPos(x)
-      var k = FindPos(x)
+      const k = FindPos(x)
       // ii. Append INS((w, a, v(x)), z, k) to E, for a new identifier w.
       w = newNode(_l(x), _v(x), z)
       action = INS(w, k)
@@ -71,7 +71,7 @@ module.exports = function (T1, T2, options) {
     } else if (!x.root) {
       // i.
       // Let v = p(w) in T1
-      var v = p(w)
+      const v = p(w)
       // ii. If v(w) =/= v(x)
       if (_v(w) !== _v(x)) {
         // A. Append UPD(w, v(x)) to E
@@ -103,7 +103,7 @@ module.exports = function (T1, T2, options) {
     // (b) If w has no partner in M', then
     if (!partnerOfIn(w, Mprime)) {
       // append DEL(w) to E and
-      var action = DEL(w)
+      const action = DEL(w)
       appendTo(action, E)
       // apply DEL(w) to T1
       applyTo(action, T1)
@@ -122,13 +122,13 @@ module.exports = function (T1, T2, options) {
   function AlignChildren (w, x) {
     // Mark all children of w and all children of x "out of order."
     // Let S1 be the sequence of children of w whose partners are children of x...
-    var S1 = childrenOf(w).filter(function (child) {
-      var partner = partnerOfIn(child, Mprime)
+    const S1 = childrenOf(w).filter(function (child) {
+      const partner = partnerOfIn(child, Mprime)
       return partner && partner.parent === x
     })
     // ...and let S2 be the sequence of children of x whose partners are children of w.
-    var S2 = childrenOf(x).filter(function (child) {
-      var partner = partnerOfIn(child, Mprime)
+    const S2 = childrenOf(x).filter(function (child) {
+      const partner = partnerOfIn(child, Mprime)
       return partner && partner.parent === w
     })
     // Define the function equal(a, b)
@@ -137,11 +137,11 @@ module.exports = function (T1, T2, options) {
       return elementOf([a, b], Mprime)
     }
     // Let S <- LCS(S1, S2, equal)
-    var S = LCS(S1, S2, equal, Mprime)
+    const S = LCS(S1, S2, equal, Mprime)
     // For each (a, b) elementOf S, mark nodes a and b "in order."
     S.forEach(function (element) {
-      var a = element[0]
-      var b = element[1]
+      const a = element[0]
+      const b = element[1]
       a.inOrder = true
       b.inOrder = true
     })
@@ -154,9 +154,9 @@ module.exports = function (T1, T2, options) {
           !elementOf([a, b], S)
         ) {
           // (a) k <- FindPos(b)
-          var k = FindPos(b)
+          const k = FindPos(b)
           // (b) Append MOV(a, w, k) to E...
-          var action = MOV(a, w, k)
+          const action = MOV(a, w, k)
           appendTo(action, E)
           // ...and apply MOV(a, w, k) to T1
           applyTo(action, T1)
@@ -170,17 +170,17 @@ module.exports = function (T1, T2, options) {
 
   function FindPos (x) {
     // Let y = p(x) in T2...
-    var y = p(x)
+    const y = p(x)
     // If x is the leftmost child of y that is marked "in order," return 1.
-    var leftMostChildOfYMarkedInOrder = childrenOf(y).find(function (child) {
+    const leftMostChildOfYMarkedInOrder = childrenOf(y).find(function (child) {
       return child.inOrder
     })
     if (x === leftMostChildOfYMarkedInOrder) return 1
     // Find v elementOf T2 where v is the rightmost sibling of x that is to the left of x and is marked "in order."
-    var siblingsOfX = childrenOf(y)
-    var indexOfX = siblingsOfX.indexOf(x)
-    var siblingsToTheLeftOfX = siblingsOfX.slice(0, indexOfX)
-    var v = siblingsToTheLeftOfX
+    const siblingsOfX = childrenOf(y)
+    const indexOfX = siblingsOfX.indexOf(x)
+    const siblingsToTheLeftOfX = siblingsOfX.slice(0, indexOfX)
+    const v = siblingsToTheLeftOfX
       .reverse()
       .find(function (sibling) {
         return sibling.inOrder
@@ -188,13 +188,13 @@ module.exports = function (T1, T2, options) {
     // This branch is _not_ described in the paper.
     if (!v) return 0
     // Let u be the partner of v in T1.
-    var u = partnerOfIn(v, Mprime)
+    const u = partnerOfIn(v, Mprime)
     if (!u) return 0
     // return get_pos(u) + 1
     // Suppose u is the ith child of its parent (counting from left to right) that is marked "in order."
-    var parentOfU = p(u)
-    var siblingsOfU = childrenOf(parentOfU)
-    var i = siblingsOfU.findIndex(function (sibling) {
+    const parentOfU = p(u)
+    const siblingsOfU = childrenOf(parentOfU)
+    const i = siblingsOfU.findIndex(function (sibling) {
       return sibling.inOrder
     })
     // Return i + 1.
@@ -204,13 +204,13 @@ module.exports = function (T1, T2, options) {
   // Myers 1986
   function LCS (a, b, equal) {
     if (a.length === 0 || b.length === 0) return []
-    var aHead = a[0]
-    var bHead = b[0]
+    const aHead = a[0]
+    const bHead = b[0]
     if (equal(aHead, bHead, undefined, M)) {
       return [[aHead, bHead]].concat(LCS(a.slice(1), b.slice(1), equal))
     } else {
-      var first = LCS(a, b.slice(1), equal)
-      var second = LCS(a.slice(1), b, equal)
+      const first = LCS(a, b.slice(1), equal)
+      const second = LCS(a.slice(1), b, equal)
       return first.length > second.length ? first : second
     }
   }
@@ -226,17 +226,17 @@ function addParentProperties (node) {
 }
 
 function applyTo (action, tree) {
-  var operation = action.operation
-  var node = action.node
+  const operation = action.operation
+  const node = action.node
   assert(typeof node, 'object')
-  var parent
+  let parent
   /* istanbul ignore else */
   if (operation === 'insert') {
     parent = p(node)
     childrenOf(parent).splice(operation.index, 0, node)
   } else if (operation === 'delete') {
     parent = p(node)
-    var children = childrenOf(parent)
+    const children = childrenOf(parent)
     children.splice(children.indexOf(node), 1)
   } else if (operation === 'update') {
     node.label.value = action.value
@@ -254,8 +254,8 @@ function partnerOfIn (node, mapping) {
   assert.strictEqual(typeof node, 'object')
   assert(hasOwnProperty.call(node, 'label'))
   assert(Array.isArray(mapping))
-  for (var index = 0; index < mapping.length; index++) {
-    var pair = mapping[index]
+  for (let index = 0; index < mapping.length; index++) {
+    const pair = mapping[index]
     if (pair[0] === node) return pair[1]
     if (pair[1] === node) return pair[0]
   }
@@ -296,7 +296,7 @@ function newNode (l, v, y) {
   assert.strictEqual(typeof l, 'string')
   assert.strictEqual(typeof y, 'object')
   assert(hasOwnProperty.call(y, 'label'))
-  var label = { type: l }
+  const label = { type: l }
   if (v !== undefined) label.value = v
   return { label: label, parent: y, children: [] }
 }

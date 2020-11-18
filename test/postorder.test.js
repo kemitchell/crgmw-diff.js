@@ -1,12 +1,12 @@
-var tape = require('tape')
-var postorder = require('../postorder')
+const tape = require('tape')
+const postorder = require('../postorder')
 
 tape('postorder sanity check', function (test) {
-  var tree = {
+  const tree = {
     label: 'p',
     children: [{ label: 'a' }, { label: 'b' }, { label: 'c' }]
   }
-  var order = []
+  const order = []
   postorder(tree, function (node) { order.push(node.label) })
   test.deepEqual(order, ['a', 'b', 'c', 'p'], 'expected order')
   test.end()

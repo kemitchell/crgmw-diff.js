@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "istanbul": "^0.4.5",
-    "standard": "^14.3.1",
+    "standard": "^16.0.2",
     "tape": "^5.0.1"
   },
   "repository": "kemitchell/crgmw-diff.js",

@@ -1,6 +1,6 @@
-var assert = require('assert')
-var postorder = require('./postorder')
-var stringSimilarity = require('string-similarity')
+const assert = require('assert')
+const postorder = require('./postorder')
+const stringSimilarity = require('string-similarity')
 
 module.exports = function (
   leftTree, rightTree,
@@ -15,7 +15,7 @@ module.exports = function (
   assert(MINIMUM_BRANCH_SIMILARITY >= 0)
   assert(MINIMUM_BRANCH_SIMILARITY <= 1)
 
-  var matches = []
+  const matches = []
   function match (leftNode, rightNode) {
     matches.push([leftNode, rightNode])
   }
@@ -51,18 +51,18 @@ module.exports = function (
 
   function equivalentLeaves (leftLeaf, rightLeaf) {
     if (leftLeaf.label.type !== rightLeaf.label.type) return false
-    var score = similarity(leftLeaf, rightLeaf)
+    const score = similarity(leftLeaf, rightLeaf)
     return score >= MINIMUM_LEAF_SIMILARITY
   }
 
   function equivalentBranches (leftBranch, rightBranch) {
     if (leftBranch.label.type !== rightBranch.label.type) return false
-    var common = commonMatches(leftBranch, rightBranch).length
-    var max = Math.max(
+    const common = commonMatches(leftBranch, rightBranch).length
+    const max = Math.max(
       leafCount(leftBranch),
       leafCount(rightBranch)
     )
-    var score = common / max
+    const score = common / max
     return score >= MINIMUM_BRANCH_SIMILARITY
   }
 
@@ -99,7 +99,7 @@ module.exports = function (
   }
 
   function descendantOf (parent, node) {
-    var found = false
+    let found = false
     postorder(parent, function (descendant, context) {
       if (descendant === node) {
         found = true
@@ -110,7 +110,7 @@ module.exports = function (
   }
 
   function leafCount (parent) {
-    var count = 0
+    let count = 0
     postorder(parent, function (node) {
       if (isLeafNode(node)) count++
     })

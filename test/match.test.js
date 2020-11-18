@@ -1,9 +1,9 @@
-var ABC = require('./abc')
-var tape = require('tape')
-var match = require('../match')
+const ABC = require('./abc')
+const tape = require('tape')
+const match = require('../match')
 
 tape.test('match Figure 1: Running Example', function (test) {
-  var left = {
+  const left = {
     label: { type: 'document' },
     children: [
       {
@@ -29,7 +29,7 @@ tape.test('match Figure 1: Running Example', function (test) {
       }
     ]
   }
-  var right = {
+  const right = {
     label: { type: 'document' },
     children: [
       {
@@ -55,7 +55,7 @@ tape.test('match Figure 1: Running Example', function (test) {
       }
     ]
   }
-  var expected = [
+  const expected = [
     // Documents
     [left, right, 'document'],
     // Paragraphs
@@ -69,7 +69,7 @@ tape.test('match Figure 1: Running Example', function (test) {
     [left.children[1].children[1], right.children[2].children[1], 'sentence e'],
     [left.children[2].children[0], right.children[1].children[0], 'sentence f']
   ]
-  var matches = match(left, right, 0.8, 0.5)
+  const matches = match(left, right, 0.8, 0.5)
   checkMatches(test, matches, left, right, expected)
   test.assert(
     !matches.some(function (match) {
@@ -81,9 +81,9 @@ tape.test('match Figure 1: Running Example', function (test) {
 })
 
 tape.test('match identical trees', function (test) {
-  var left = JSON.parse(JSON.stringify(ABC))
-  var right = JSON.parse(JSON.stringify(ABC))
-  var expected = [
+  const left = JSON.parse(JSON.stringify(ABC))
+  const right = JSON.parse(JSON.stringify(ABC))
+  const expected = [
     // Object
     [left, right, 'object'],
     // Keys
@@ -95,7 +95,7 @@ tape.test('match identical trees', function (test) {
     [left.children[1].children[0], right.children[1].children[0], 'second number'],
     [left.children[2].children[0], right.children[2].children[0], 'third number']
   ]
-  var matches = match(left, right, 0.8, 0.5)
+  const matches = match(left, right, 0.8, 0.5)
   checkMatches(test, matches, left, right, expected)
   test.end()
 })
